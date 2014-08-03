@@ -39,12 +39,12 @@ class GuzzleStreamWrapper
                 . 'writable, or both.');
         }
 
-        return fopen('guzzle://stream', $mode, null, stream_context_create([
-            'guzzle' => ['stream' => $stream]
-        ]));
+        return fopen('guzzle://stream', $mode, null, stream_context_create(array(
+            'guzzle' => array('stream' => $stream)
+		)));
     }
 
-    public function stream_open($path, $mode, $options, &$opened_path)
+    public function stream_open( /** @noinspection PhpUnusedParameterInspection */ $path, $mode, $options, &$opened_path)
     {
         $options = stream_context_get_options($this->context);
 
@@ -85,13 +85,13 @@ class GuzzleStreamWrapper
 
     public function stream_stat()
     {
-        static $modeMap = [
+        static $modeMap = array(
             'r'  => 33060,
             'r+' => 33206,
             'w'  => 33188
-        ];
+		);
 
-        return [
+        return array(
             'dev'     => 0,
             'ino'     => 0,
             'mode'    => $modeMap[$this->mode],
@@ -105,6 +105,6 @@ class GuzzleStreamWrapper
             'ctime'   => 0,
             'blksize' => 0,
             'blocks'  => 0
-        ];
+		);
     }
 }

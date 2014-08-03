@@ -19,23 +19,23 @@ class Stream implements MetadataStreamInterface
     private $writable;
 
     /** @var array Stream metadata */
-    private $meta = [];
+    private $meta = array();
 
     /** @var array Hash of readable and writable stream types */
-    private static $readWriteHash = [
-        'read' => [
+    private static $readWriteHash = array(
+        'read' => array(
             'r' => true, 'w+' => true, 'r+' => true, 'x+' => true, 'c+' => true,
             'rb' => true, 'w+b' => true, 'r+b' => true, 'x+b' => true,
             'c+b' => true, 'rt' => true, 'w+t' => true, 'r+t' => true,
             'x+t' => true, 'c+t' => true, 'a+' => true
-        ],
-        'write' => [
+		),
+        'write' => array(
             'w' => true, 'w+' => true, 'rw' => true, 'r+' => true, 'x+' => true,
             'c+' => true, 'wb' => true, 'w+b' => true, 'r+b' => true,
             'x+b' => true, 'c+b' => true, 'w+t' => true, 'r+t' => true,
             'x+t' => true, 'c+t' => true, 'a' => true, 'a+' => true
-        ]
-    ];
+		)
+	);
 
     /**
      * Create a new stream based on the input type
@@ -104,7 +104,7 @@ class Stream implements MetadataStreamInterface
             fclose($this->stream);
         }
 
-        $this->meta = [];
+        $this->meta = array();
         $this->stream = null;
     }
 
