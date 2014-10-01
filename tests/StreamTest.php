@@ -1,5 +1,4 @@
 <?php
-
 namespace GuzzleHttp\Tests\Stream;
 
 use GuzzleHttp\Stream\Stream;
@@ -170,5 +169,55 @@ class StreamTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('GuzzleHttp\Stream\Stream', $stream);
         $this->assertEquals('foo', $stream->getContents());
         $stream->close();
+    }
+
+    public function testFlushes()
+    {
+        $stream = Stream::factory('foo');
+        $this->assertTrue($stream->flush());
+        $stream->close();
+    }
+
+    public function testFactoryCreatesFromEmptyString()
+    {
+        $s = Stream::factory();
+        $this->assertInstanceOf('GuzzleHttp\Stream\Stream', $s);
+    }
+
+    public function testFactoryCreatesFromResource()
+    {
+        $r = fopen(__FILE__, 'r');
+        $s = Stream::factory($r);
+        $this->assertInstanceOf('GuzzleHttp\Stream\Stream', $s);
+        $this->assertSame(file_get_contents(__FILE__), (string) $s);
+    }
+
+    public function testFactoryCreatesFromObjectWithToString()
+    {
+        $r = new HasToString();
+        $s = Stream::factory($r);
+        $this->assertInstanceOf('GuzzleHttp\Stream\Stream', $s);
+        $this->assertEquals('foo', (string) $s);
+    }
+
+    public function testCreatePassesThrough()
+    {
+        $s = Stream::factory('foo');
+        $this->assertSame($s, Stream::factory($s));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThrowsExceptionForUnknown()
+    {
+        Stream::factory(new \stdClass());
+    }
+}
+
+class HasToString
+{
+    public function __toString() {
+        return 'foo';
     }
 }
