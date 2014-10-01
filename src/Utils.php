@@ -25,11 +25,13 @@ class Utils
     {
         $ex = null;
         set_error_handler(function () use ($filename, $mode, &$ex) {
+			$func_get_args = func_get_args();
+
             $ex = new \RuntimeException(sprintf(
                 'Unable to open %s using mode %s: %s',
                 $filename,
                 $mode,
-                func_get_args()[1]
+                $func_get_args[1]
             ));
         });
 

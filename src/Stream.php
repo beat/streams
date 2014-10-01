@@ -229,7 +229,7 @@ class Stream implements MetadataStreamInterface
      */
     public function getMetadata($key = null)
     {
-        $meta = $this->stream ? stream_get_meta_data($this->stream) : [];
+        $meta = $this->stream ? stream_get_meta_data($this->stream) : array();
 
         return !$key ? $meta : (isset($meta[$key]) ? $meta[$key] : null);
     }
